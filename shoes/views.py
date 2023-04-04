@@ -15,6 +15,8 @@ from datetime import timedelta, datetime
 from .models import Categories, Brand, Shoes, SavedShoes
 from .serializers import ListShoesSerializer, UserSavedShoesSerializer, ListCategoriesSerializer, ListBrandsSerializer
 
+
+# shoes view
 class ListShoesPagination(PageNumberPagination):
     page_size = 5
     page_size_query_param = 'ListShoes_size'
@@ -24,9 +26,10 @@ class ListShoes(viewsets.ModelViewSet ):
     permission_classes = (AllowAny,)
     serializer_class = ListShoesSerializer
 
-    filter_backends = (filters.SearchFilter, filters2.DjangoFilterBackend,)
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter, filters2.DjangoFilterBackend,)
     filterset_class = ListShoesFilter
     search_fields = ['description', 'name',]
+    ordering_fields = ['price', 'name']
     pagination_class = ListShoesPagination
     lookup_field = 'pk'
 
@@ -49,14 +52,34 @@ class ListNewShoes(viewsets.ModelViewSet ):
         if page is not None:
             return self.get_paginated_response(serializer.data)
 
+class SavedShoesPagination(PageNumberPagination):
+    page_size = 5
+    page_size_query_param = 'ListSavedShoes'
+    
 class UserSavedShoes(viewsets.ModelViewSet):
     queryset = SavedShoes.objects.all()
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSavedShoesSerializer
+    pagination_class = SavedShoesPagination
     lookup_field = 'pk'
     
+    def list(self, request, *args, **kwargs):
+        
+        
+        # if(self.request.user.savedshoes_set.values().filter(id =self.get_object().pk).exists()):
+        print(self.request.user)
+        # print(self.queryset.filter(user=self.request.user))
+        queryset = self.queryset.filter(user=self.request.user)
+        serializer = self.serializer_class(queryset, many=True, context={'request': request}, read_only=True)
+        page = self.paginate_queryset(serializer.data)
+
+        if page is not None:
+            return self.get_paginated_response(serializer.data)
+        # else:
+            # serializer = self.serializer_class([], many=True, context={'request': request}, read_only=True)
+            # return Response(serializer.data)
+            
     def retrieve(self, request, *args, **kwargs):
-        print(self.request.user.savedshoes_set.values().filter(id =self.get_object().pk).exists())
         if(self.request.user.savedshoes_set.values().filter(id =self.get_object().pk).exists()):
             instance = self.get_object()
             serializer = self.get_serializer(instance)
@@ -74,8 +97,8 @@ class DeleteUserSavedShoes(generics.DestroyAPIView ):
     lookup_field = 'pk'
 
     def perfom_destroy(self, instance):
-        # if(self.request.user.savedshoes_set.values().filter(id =self.get_object().pk).exists()):
-        super().perform_destroy()
+        if(self.request.user.savedshoes_set.values().filter(id =self.get_object().pk).exists()):
+            super().perform_destroy()
 
 class ListCategories(generics.ListAPIView):
     queryset = Categories.objects.all()

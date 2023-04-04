@@ -29,7 +29,7 @@ class Shoes(models.Model):
     image = models.ImageField( upload_to='images/shoe')
     price = models.IntegerField()
     description = models.TextField()
-    category = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    category = models.ManyToManyField(Categories)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True )
     updated_at = models.DateTimeField(auto_now=True)
@@ -43,8 +43,8 @@ class Shoes(models.Model):
 
 
 class SavedShoes(models.Model):
-    shoes = models.ManyToManyField(Shoes)
+    shoes = models.ForeignKey(Shoes, on_delete=models.CASCADE)
     user = models.ForeignKey(FootUser, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'user({self.user})'
+        return f'shoe(shoes) saved by {self.user}'
