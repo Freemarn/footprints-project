@@ -18,6 +18,7 @@ psycopg2 = "*"
 django-data-seeder = "*"
 pillow = "*"
 django-cleanup = "*"
+django-jazzmin = "*"
 
 [dev-packages]
 

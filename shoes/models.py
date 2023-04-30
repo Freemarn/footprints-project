@@ -1,6 +1,6 @@
 from django.db import models
 from footUsers.models import FootUser
-from django.utils.text import slugify 
+from django.utils.html import mark_safe
 
 # Create your models here.
 
@@ -33,6 +33,11 @@ class Shoes(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True )
     updated_at = models.DateTimeField(auto_now=True)
+
+    def img_preview(self): 
+        print(self.image.url)
+        return mark_safe(f'<a href="{self.image.url}"><img src = "{self.image.url}" width = "250"/> Click To Preview</a>')
+
 
     class Meta:
         verbose_name = ("Shoe")
