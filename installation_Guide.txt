@@ -1,0 +1,69 @@
+- open your terminal type python3 -V to see if you have python3 in your Linux distro 
+
+- if python3 is not installed install python3 with the following code
+  sudo apt install python3.8
+  
+- check if pip is installed with 
+  pip -V
+  if not install pip using 
+  sudo pip3 install --upgrade pip
+  
+- install python environment manager using 
+  pip install pipenv
+ 
+- now open your terminal in the project directry where you will see or find the following files named
+  pipfile, Pipfile.lock, and manage.py or cd into the project directory where those file are located
+  then proceed
+
+- now to create and activate the python environment type
+  pipenv shell
+  
+- to install dependencies from pipfiles use the code
+  pipenv install
+  
+- after installation you can then start the server by typing
+  python3 manage.py runserver
+
+- to create an admin superuser run this 
+  python3 manage.py createsuperuser
+  
+  then fill the credential
+  
+- after installation you can then start the server by typing
+  python3 manage.py runserver
+  
+  
+HERE ARE THE EXPOSED URL END POINTS FOR THE PROJECT
+ 
+-for the admin page
+  http://127.0.0.1:8000/admin
+  
+-for managing user flow
+  http://127.0.0.1:8000/user/login/
+  http://127.0.0.1:8000/user/login/refresh/
+  http://127.0.0.1:8000/user/token/verify/
+  
+  http://127.0.0.1:8000/user/register/
+  http://127.0.0.1:8000/user/details/<int:pk>/
+  http://127.0.0.1:8000/user/update/<int:pk>/
+  http://127.0.0.1:8000/user/delete/<int:pk>/
+  
+-for managing shoes flow
+  http://127.0.0.1:8000/shoes/list/
+  http://127.0.0.1:8000/shoes/list/new
+  http://127.0.0.1:8000/shoes/details/<int:pk>/
+  
+  http://127.0.0.1:8000/shoes/saved/<int:pk>/
+  http://127.0.0.1:8000/shoes/saved/remove/<int:pk>/
+  
+  http://127.0.0.1:8000/shoes/categories/
+  http://127.0.0.1:8000/shoes/brands/
+  
+  
+  
+  
+  
+  
+  
+  
+  
