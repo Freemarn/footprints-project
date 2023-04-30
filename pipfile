@@ -1,0 +1,25 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+djangorestframework = "*"
+markdown = "*"
+django-filter = "*"
+djangorestframework-simplejwt = "*"
+django = "*"
+django-seed = "*"
+django-cors-headers = "*"
+python-decouple = "*"
+requests = "*"
+django-rest-authemail = "*"
+psycopg2 = "*"
+django-data-seeder = "*"
+pillow = "*"
+django-cleanup = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.10.6"
