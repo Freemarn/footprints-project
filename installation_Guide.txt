@@ -60,7 +60,10 @@ HERE ARE THE EXPOSED URL END POINTS FOR THE PROJECT
   http://127.0.0.1:8000/shoes/brands/
   
   
-  
+  http://127.0.0.1:8000/shoes/saved/add/        
+  http://127.0.0.1:8000/shoes/list/?category=id
+  http://127.0.0.1:8000/shoes/list/?&brand=id
+  http://127.0.0.1:8000/shoes/list/?category=4&brand=1
   
   
   
