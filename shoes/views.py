@@ -13,7 +13,7 @@ from datetime import timedelta, datetime
 # Create your views here.
 
 from .models import Categories, Brand, Shoes, SavedShoes
-from .serializers import ListShoesSerializer, UserSavedShoesSerializer, ListCategoriesSerializer, ListBrandsSerializer
+from .serializers import ListShoesSerializer, UserSavedShoesSerializer, UserSave_ShoesSerializer, ListCategoriesSerializer, ListBrandsSerializer
 
 
 # shoes view
@@ -66,9 +66,6 @@ class UserSavedShoes(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         
         
-        # if(self.request.user.savedshoes_set.values().filter(id =self.get_object().pk).exists()):
-        print(self.request.user)
-        # print(self.queryset.filter(user=self.request.user))
         queryset = self.queryset.filter(user=self.request.user)
         serializer = self.serializer_class(queryset, many=True, context={'request': request}, read_only=True)
         page = self.paginate_queryset(serializer.data)
@@ -88,6 +85,14 @@ class UserSavedShoes(viewsets.ModelViewSet):
             serializer = self.serializer_class([], many=True, context={'request': request}, read_only=True)
             return Response(serializer.data)
 
+
+
+class UserSave_Shoes(viewsets.ModelViewSet):
+    queryset = SavedShoes.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UserSave_ShoesSerializer
+    serializer = UserSave_ShoesSerializer
+    lookup_field = 'pk'
 
 
 class DeleteUserSavedShoes(generics.DestroyAPIView ):

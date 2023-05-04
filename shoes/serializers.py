@@ -3,7 +3,8 @@ from rest_framework.validators import ValidationError
 from .models import Categories, Brand, Shoes, SavedShoes
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
-
+from rest_framework.fields import CurrentUserDefault
+from footUsers.models import FootUser
 # Categories serializers
 class ListCategoriesSerializer(serializers.ModelSerializer):
     
@@ -66,5 +67,23 @@ class UserSavedShoesSerializer(serializers.ModelSerializer):
             'shoes',
             'user', 
         ]
+
+
+class UserSave_ShoesSerializer(serializers.Serializer):
+    user = serializers.CharField(  required=True)
+    shoes = serializers.CharField(  required=True)
+
+    def create(self, validated_data):
+        Shoe_id = validated_data["shoes"]
+        user_id = validated_data["user"]
+        shoe_instance = Shoes.objects.get(id=Shoe_id)
+        footUser_instance = FootUser.objects.get(id=user_id)
+        validated_data["shoes"] = shoe_instance
+        validated_data["user"] = footUser_instance
+        obj = SavedShoes(**validated_data)
+        obj.user = footUser_instance
+        obj.shoes = shoe_instance
+        obj.save()
+        return obj
 
 
