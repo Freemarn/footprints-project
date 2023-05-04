@@ -33,6 +33,7 @@ class ListShoesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shoes
         fields = [
+            'id',   
             'name',
             'image',
             'price',

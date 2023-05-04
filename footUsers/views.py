@@ -31,7 +31,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
         access_token_obj = AccessToken(access_token_str)
         user_id=access_token_obj['user_id']
         user=FootUser.objects.get(id=user_id)
-        user =  {'user.id':user.id, 'first_name':user.first_name, "last_name":user.last_name, 'email':user.email}
+        user =  {'user_id':user.id, 'first_name':user.first_name, "last_name":user.last_name, 'email':user.email}
 
         return Response([serializer.validated_data, user], status=status.HTTP_200_OK,)
         
