@@ -18,7 +18,7 @@ from .serializers import ListShoesSerializer, UserSavedShoesSerializer, UserSave
 
 # shoes view
 class ListShoesPagination(PageNumberPagination):
-    page_size = 5
+    page_size = 20
     page_size_query_param = 'ListShoes_size'
 
 class ListShoes(viewsets.ModelViewSet ):
