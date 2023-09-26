@@ -37,7 +37,10 @@ def sendMail(email, customer_name, html, recipient_email_list):
     email.send()
     
     
-    class RegisterUser(generics.CreateAPIView):
+
+
+
+class RegisterUser(generics.CreateAPIView):
     queryset = FootUser.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
@@ -57,6 +60,8 @@ def sendMail(email, customer_name, html, recipient_email_list):
         # for newly registerd users
         sendMail(email, fullName, "welcome.html", [email])
         return self.create(request, *args, **kwargs)
+
+
 
 
 
