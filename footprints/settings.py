@@ -35,7 +35,7 @@ EMAIL_HOST_USER = 'your-email@example.com'
 EMAIL_HOST_PASSWORD = 'your-email-password'
 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.vercel.app']
 
 
 # Application definition
@@ -105,19 +105,15 @@ DATABASES = {
     }
 }
 
-# DATABASES = {  
-#     'default': {  
-#         'ENGINE': 'django.db.backends.mysql',  
-#         'NAME': config("DB_NAME"),  
-#         'USER': config("DB_USER"),  
-#         'PASSWORD': config("DB_PASSWORD"),  
-#         'HOST': config("DB_HOST"),  
-#         'PORT': config("DB_PORT"),  
-#         'OPTIONS': {  
-#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"  
-#         }  
-#     }  
-# }
+
+EMAIL_FROM = config("DB_NAME")
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = config("EMAIL_PORT")
+EMAIL_USE_SSL = config("EMAIL_USE_SSL")
+EMAIL_USE_TLS = config("EMAIL_USE_TLS")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

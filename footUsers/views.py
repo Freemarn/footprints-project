@@ -14,6 +14,57 @@ from rest_framework import generics, status
 
 from rest_framework_simplejwt.tokens import AccessToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+
+
+def sendMail(email, customer_name, html, recipient_email_list):
+    from_email = 'admin@footprints.name.ng'
+    subject = 'Footprints'
+
+    context = {
+        'Customer_name': customer_name,
+        'email': email,
+    }
+
+    html_content = render_to_string(html, context)
+    text_content = strip_tags(html_content)  # Create plain text version
+
+    # Create the email message
+    email = EmailMultiAlternatives(subject, text_content, from_email, recipient_email_list)
+    email.attach_alternative(html_content, "text/html")
+    email.send()
+    
+    
+
+
+
+class RegisterUser(generics.CreateAPIView):
+    queryset = FootUser.objects.all()
+    permission_classes = (AllowAny,)
+    serializer_class = RegisterSerializer
+
+    def post(self, request, *args, **kwargs):
+        email = request.POST.get('email')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        fullName = f"{first_name} {last_name}"
+        details =  f"""
+            name: {fullName}
+            email: {email}
+        """
+        print(details)
+        # you can add all admin email in the list []
+        sendMail(email, fullName, "new_user.html" , ['alikaprosper94@gmail.com', 'Footprintsshoehub@gmail.com']) #for admins
+        # for newly registerd users
+        sendMail(email, fullName, "welcome.html", [email])
+        return self.create(request, *args, **kwargs)
+
+
+
+
+
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = TokenObtainPairSerializer
